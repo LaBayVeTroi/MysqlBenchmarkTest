@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:8.0.20
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: pass
+  sdc:
+    image: streamsets/datacollector:3.17.0-latest
+    restart: on-failure
+    ports: 
+      - "18630:18630"
+  minio:
+    image: minio/minio
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    command:
+      server /data
+  
